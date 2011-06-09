@@ -1,4 +1,7 @@
 Overview
+-----------------
+
+This is a PHP wrapper around Kontagent's API. It provides methods to make the API calls for all the different message types supported by Kontagent.
 
 Getting Started
 -----------------
@@ -25,16 +28,19 @@ Using The Library
 
 Once you've got your Kontagent object instantiated and configured you can start using the library. Essentially, there are two types of methods provided in the library: tracking methods and helper methods.
 
-** Tracking Methods **
+**Tracking Methods**
 
 The tracking methods should get called by your application whenever you need to report an event to Kontagent. There is a tracking method available for every message type in the Kontagent API. A few examples are:
 
 <?php
 
-$kt->trackApplicationAdded($userId, $uniqueTrackingTag = null, $shortUniqueTrackingTag = null)
-$kt->trackPageRequest($userId, $timestamp, $ipAddress = null, $pageAddress = null)
-$kt->trackEvent($userId, $eventName, $value = null, $level = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
-$kt->trackRevenue($userId, $value, $type = null,  $subtype1 = null, $subtype2 = null, $subtype3 = null)
+$kt->trackApplicationAdded($userId, $uniqueTrackingTag = null, $shortUniqueTrackingTag = null);
+
+$kt->trackPageRequest($userId, $timestamp, $ipAddress = null, $pageAddress = null);
+
+$kt->trackEvent($userId, $eventName, $value = null, $level = null, $subtype1 = null, $subtype2 = null, $subtype3 = null);
+
+$kt->trackRevenue($userId, $value, $type = null,  $subtype1 = null, $subtype2 = null, $subtype3 = null);
 
 ?>
 
@@ -42,13 +48,14 @@ Everytime events happen within your application, you should make the appropriate
 
 For a full list of the available tracking methods see: <link_to_full_reference>
 
-** Helper Methods **
+**Helper Methods**
 
 The library provides a few helper methods for common tasks. Currently the only ones available are:
 
 <?php
 
 $kt->genUniqueTrackingTag();
+
 $kt->genShortUniqueTrackingTag();
 
 ?>
