@@ -12,9 +12,11 @@ an instance of the Kontagent object.
 <?php
 
 // include the library
+
 require_once('./kontagent.php');
 
 // configure and instantiate Kontagent object
+
 $kt = new Kontagent($ktApiKey, $ktSecretKey, $useTestServer);
 
 ?>
