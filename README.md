@@ -9,18 +9,23 @@ Getting Started
 To get started with the Kontagent library, you will need to check-out the kontagent.php file and include it in your project. You will also need to instantiate and configure
 an instance of the Kontagent object.
 
-*<?php
+<?php
 
+// include the library
 require_once('./kontagent.php');
 
 
+// configure and instantiate Kontagent object
+
 $ktApiKey = 'your_kt_api_key';
+
 $ktSecretKey = 'your_kt_secret_key';
+
 $useTestServer = true;
 
 $kt = new Kontagent($ktApiKey, $ktSecretKey, $useTestServer);
 
-?>*
+?>
 
 Using The Library
 -----------------
