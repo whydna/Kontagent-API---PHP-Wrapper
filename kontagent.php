@@ -457,8 +457,6 @@ class Kontagent
 	* @param int $birthYear The birth year of the user
 	* @param string $gender The gender of the user (m,f,u)
 	* @param string $country The 2-character country code of the user
-	* @param string $state The state of the user
-	* @param string $zipCode The zip code of the user
 	* @param int $friendCount The friend count of the user
 	*
 	* @throws KtParameterException An invalid parameter value was provided
