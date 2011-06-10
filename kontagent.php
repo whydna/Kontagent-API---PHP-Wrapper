@@ -132,7 +132,6 @@ class Kontagent
 	/*
 	* Sends an Invite Response message to Kontagent.
 	*
-	* @param bool $appIsInstalled Whether the responding user already has your application installed
 	* @param string $uniqueTrackingTag 32-digit hex string used to match 
 	*	InviteSent->InviteResponse->ApplicationAdded messages. 
 	*	See the genUniqueTrackingTag() helper method.
@@ -143,10 +142,10 @@ class Kontagent
 	*
 	* @throws KtParameterException An invalid parameter value was provided
 	*/
-	public function trackInviteResponse($appIsInstalled, $uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+	public function trackInviteResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
 	{
 		$params = array(
-			'i' => ($appIsInstalled) ? 1 : 0,
+			'i' => 0,
 			'u' => $uniqueTrackingTag
 		);
 		
@@ -190,7 +189,6 @@ class Kontagent
 	/*
 	* Sends an Notification Response message to Kontagent.
 	*
-	* @param bool $appIsInstalled Whether the responding user already has your application installed
 	* @param string $uniqueTrackingTag 32-digit hex string used to match 
 	*	NotificationSent->NotificationResponse->ApplicationAdded messages. 
 	*	See the genUniqueTrackingTag() helper method.
@@ -201,10 +199,10 @@ class Kontagent
 	*
 	* @throws KtParameterException An invalid parameter value was provided
 	*/
-	public function trackNotificationResponse($appIsInstalled, $uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+	public function trackNotificationResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
 	{
 		$params = array(
-			'i' => ($appIsInstalled) ? 1 : 0,
+			'i' => 0,
 			'u' => $uniqueTrackingTag
 		);
 		
@@ -259,10 +257,10 @@ class Kontagent
 	*
 	* @throws KtParameterException An invalid parameter value was provided
 	*/
-	public function trackNotificationEmailResponse($appIsInstalled, $uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+	public function trackNotificationEmailResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
 	{
 		$params = array(
-			'i' => ($appIsInstalled) ? 1 : 0,
+			'i' => 0,
 			'u' => $uniqueTrackingTag
 		);
 		
@@ -307,7 +305,6 @@ class Kontagent
 	/*
 	* Sends an Stream Post Response message to Kontagent.
 	*
-	* @param bool $appIsInstalled Whether the responding user already has your application installed
 	* @param string $uniqueTrackingTag 32-digit hex string used to match 
 	*	NotificationEmailSent->NotificationEmailResponse->ApplicationAdded messages. 
 	*	See the genUniqueTrackingTag() helper method.
@@ -320,10 +317,10 @@ class Kontagent
 	*
 	* @throws KtParameterException An invalid parameter value was provided
 	*/
-	public function trackStreamPostResponse($appIsInstalled, $uniqueTrackingTag, $type, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+	public function trackStreamPostResponse($uniqueTrackingTag, $type, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
 	{
 		$params = array(
-			'i' => ($appIsInstalled) ? 1 : 0,
+			'i' => 0,
 			'u' => $uniqueTrackingTag,
 			'tu' => $type
 		);
@@ -405,7 +402,6 @@ class Kontagent
 	/*
 	* Sends an Third Party Communication Click message to Kontagent.
 	*
-	* @param bool $appIsInstalled Whether the responding user already has your application installed
 	* @param string $type The third party comm click type (ad, partner).
 	* @param string $shortUniqueTrackingTag 8-digit hex string used to match 
 	*	ThirdPartyCommClicks->ApplicationAdded messages. 
@@ -416,10 +412,10 @@ class Kontagent
 	*
 	* @throws KtParameterException An invalid parameter value was provided
 	*/
-	public function trackThirdPartyCommClick($appIsInstalled, $type, $shortUniqueTrackingTag, $userId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+	public function trackThirdPartyCommClick($type, $shortUniqueTrackingTag, $userId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
 	{
 		$params = array(
-			'i' => ($appIsInstalled) ? 1 : 0,
+			'i' => 0,
 			'tu' => $type
 		);
 		
@@ -437,16 +433,15 @@ class Kontagent
 	*
 	* @param string $userId The UID of the user
 	* @param int $timestamp The current timestamp
-	* @param string $ipAddress The ip address of the user
 	* @param string $pageAddress The current page address (ex: index.html)
 	*
 	* @throws KtParameterException An invalid parameter value was provided
 	*/
-	public function trackPageRequest($userId, $timestamp, $ipAddress = null, $pageAddress = null)
+	public function trackPageRequest($userId, $ipAddress = null, $pageAddress = null)
 	{
 		$params = array(
 			's' => $userId,
-			'ts' => $timestamp
+			'ts' => time() 
 		);
 		
 		if ($ipAddress) { $params['ip'] = $ipAddress; }
@@ -468,15 +463,13 @@ class Kontagent
 	*
 	* @throws KtParameterException An invalid parameter value was provided
 	*/
-	public function trackUserInformation($userId, $birthYear = null, $gender = null, $country = null, $state = null, $zipCode = null, $friendCount = null)
+	public function trackUserInformation($userId, $birthYear = null, $gender = null, $country = null, $friendCount = null)
 	{
 		$params = array('s' => $userId);
 		
 		if ($birthYear) { $params['b'] = $birthYear; }
 		if ($gender) { $params['g'] = $gender; }
 		if ($country) { $params['lc'] = strtoupper($country); }
-		if ($state) { $params['ls'] = $state; }
-		if ($zipCode) { $params['lp'] = $zipCode; }
 		if ($friendCount) { $params['f'] = $friendCount; }
 
 		$this->sendMessage("cpu", $params);
