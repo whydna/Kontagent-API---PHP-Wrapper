@@ -71,3 +71,266 @@ Examples
 
 Full Class Reference
 -----------------
+
+/*
+* Generates a unique tracking tag.
+*
+* @return string The unique tracking tag
+*/
+public function genUniqueTrackingTag()
+
+
+/*
+* Generates a short unique tracking tag.
+*
+* @return string The short unique tracking tag
+*/
+public function genShortUniqueTrackingTag()
+
+
+/*
+* Sends an Invite Sent message to Kontagent.
+*
+* @param string $userId The UID of the sending user
+* @param string $recipientUserIds A comma-separated list of the recipient UIDs
+* @param string $uniqueTrackingTag 32-digit hex string used to match 
+*	InviteSent->InviteResponse->ApplicationAdded messages. 
+*	See the genUniqueTrackingTag() helper method.
+* @param string $subtype1 Subtype1 value (max 32 chars)
+* @param string $subtype2 Subtype2 value (max 32 chars)
+* @param string $subtype3 Subtype3 value (max 32 chars)
+*
+* @throws KtParameterException An invalid parameter value was provided
+*/
+public function trackInviteSent($userId, $recipientUserIds, $uniqueTrackingTag, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+
+
+/*
+* Sends an Invite Response message to Kontagent.
+*
+* @param string $uniqueTrackingTag 32-digit hex string used to match 
+*	InviteSent->InviteResponse->ApplicationAdded messages. 
+*	See the genUniqueTrackingTag() helper method.
+* @param string $recipientUserId The UID of the responding user
+* @param string $subtype1 Subtype1 value (max 32 chars)
+* @param string $subtype2 Subtype2 value (max 32 chars)
+* @param string $subtype3 Subtype3 value (max 32 chars)
+*
+* @throws KtParameterException An invalid parameter value was provided
+*/
+public function trackInviteResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+
+
+/*
+* Sends an Notification Sent message to Kontagent.
+*
+* @param string $userId The UID of the sending user
+* @param string $recipientUserIds A comma-separated list of the recipient UIDs
+* @param string $uniqueTrackingTag 32-digit hex string used to match 
+*	NotificationSent->NotificationResponse->ApplicationAdded messages. 
+*	See the genUniqueTrackingTag() helper method.
+* @param string $subtype1 Subtype1 value (max 32 chars)
+* @param string $subtype2 Subtype2 value (max 32 chars)
+* @param string $subtype3 Subtype3 value (max 32 chars)
+*
+* @throws KtParameterException An invalid parameter value was provided
+*/
+public function trackNotificationSent($userId, $recipientUserIds, $uniqueTrackingTag, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+
+
+/*
+* Sends an Notification Response message to Kontagent.
+*
+* @param string $uniqueTrackingTag 32-digit hex string used to match 
+*	NotificationSent->NotificationResponse->ApplicationAdded messages. 
+*	See the genUniqueTrackingTag() helper method.
+* @param string $recipientUserId The UID of the responding user
+* @param string $subtype1 Subtype1 value (max 32 chars)
+* @param string $subtype2 Subtype2 value (max 32 chars)
+* @param string $subtype3 Subtype3 value (max 32 chars)
+*
+* @throws KtParameterException An invalid parameter value was provided
+*/
+public function trackNotificationResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+
+
+/*
+* Sends an Notification Email Sent message to Kontagent.
+*
+* @param string $userId The UID of the sending user
+* @param string $recipientUserIds A comma-separated list of the recipient UIDs
+* @param string $uniqueTrackingTag 32-digit hex string used to match 
+*	NotificationEmailSent->NotificationEmailResponse->ApplicationAdded messages. 
+*	See the genUniqueTrackingTag() helper method.
+* @param string $subtype1 Subtype1 value (max 32 chars)
+* @param string $subtype2 Subtype2 value (max 32 chars)
+* @param string $subtype3 Subtype3 value (max 32 chars)
+*
+* @throws KtParameterException An invalid parameter value was provided
+*/
+public function trackNotificationEmailSent($userId, $recipientUserIds, $uniqueTrackingTag, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+
+
+/*
+* Sends an Notification Email Response message to Kontagent.
+*
+* @param bool $appIsInstalled Whether the responding user already has your application installed
+* @param string $uniqueTrackingTag 32-digit hex string used to match 
+*	NotificationEmailSent->NotificationEmailResponse->ApplicationAdded messages. 
+*	See the genUniqueTrackingTag() helper method.
+* @param string $recipientUserId The UID of the responding user
+* @param string $subtype1 Subtype1 value (max 32 chars)
+* @param string $subtype2 Subtype2 value (max 32 chars)
+* @param string $subtype3 Subtype3 value (max 32 chars)
+*
+* @throws KtParameterException An invalid parameter value was provided
+*/
+public function trackNotificationEmailResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+
+
+/*
+* Sends an Stream Post message to Kontagent.
+*
+* @param string $userId The UID of the sending user
+* @param string $uniqueTrackingTag 32-digit hex string used to match 
+*	NotificationEmailSent->NotificationEmailResponse->ApplicationAdded messages. 
+*	See the genUniqueTrackingTag() helper method.
+* @param string $type The Facebook channel type
+*	(feedpub, stream, feedstory, multifeedstory, dashboard_activity, or dashboard_globalnews).
+* @param string $subtype1 Subtype1 value (max 32 chars)
+* @param string $subtype2 Subtype2 value (max 32 chars)
+* @param string $subtype3 Subtype3 value (max 32 chars)
+*
+* @throws KtParameterException An invalid parameter value was provided
+*/
+public function trackStreamPost($userId, $uniqueTrackingTag, $type, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+
+
+/*
+* Sends an Stream Post Response message to Kontagent.
+*
+* @param string $uniqueTrackingTag 32-digit hex string used to match 
+*	NotificationEmailSent->NotificationEmailResponse->ApplicationAdded messages. 
+*	See the genUniqueTrackingTag() helper method.
+* @param string $type The Facebook channel type
+*	(feedpub, stream, feedstory, multifeedstory, dashboard_activity, or dashboard_globalnews).
+* @param string $recipientUserId The UID of the responding user
+* @param string $subtype1 Subtype1 value (max 32 chars)
+* @param string $subtype2 Subtype2 value (max 32 chars)
+* @param string $subtype3 Subtype3 value (max 32 chars)
+*
+* @throws KtParameterException An invalid parameter value was provided
+*/
+public function trackStreamPostResponse($uniqueTrackingTag, $type, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+
+
+/*
+* Sends an Custom Event message to Kontagent.
+*
+* @param string $userId The UID of the user
+* @param string $eventName The name of the event
+* @param int $value A value associated with the event
+* @param int $level A level associated with the event (must be positive)
+* @param string $subtype1 Subtype1 value (max 32 chars)
+* @param string $subtype2 Subtype2 value (max 32 chars)
+* @param string $subtype3 Subtype3 value (max 32 chars)
+*
+* @throws KtParameterException An invalid parameter value was provided
+*/
+public function trackEvent($userId, $eventName, $value = null, $level = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+
+
+/*
+* Sends an Application Added message to Kontagent.
+*
+* @param string $userId The UID of the installing user
+* @param string $uniqueTrackingTag 16-digit hex string used to match 
+*	Invite/StreamPost/NotificationSent/NotificationEmailSent->ApplicationAdded messages. 
+*	See the genUniqueTrackingTag() helper method.
+* @param string $shortUniqueTrackingTag 8-digit hex string used to match 
+*	ThirdPartyCommClicks->ApplicationAdded messages. 
+*	See the genShortUniqueTrackingTag() helper method.
+*
+* @throws KtParameterException An invalid parameter value was provided
+*/
+public function trackApplicationAdded($userId, $uniqueTrackingTag = null, $shortUniqueTrackingTag = null)
+
+
+/*
+* Sends an Application Removed message to Kontagent.
+*
+* @param string $userId The UID of the removing user
+*
+* @throws KtParameterException An invalid parameter value was provided
+*/
+public function trackApplicationRemoved($userId)
+	
+/*
+* Sends an Third Party Communication Click message to Kontagent.
+*
+* @param string $type The third party comm click type (ad, partner).
+* @param string $shortUniqueTrackingTag 8-digit hex string used to match 
+*	ThirdPartyCommClicks->ApplicationAdded messages. 
+* @param string $userId The UID of the user
+* @param string $subtype1 Subtype1 value (max 32 chars)
+* @param string $subtype2 Subtype2 value (max 32 chars)
+* @param string $subtype3 Subtype3 value (max 32 chars)
+*
+* @throws KtParameterException An invalid parameter value was provided
+*/
+public function trackThirdPartyCommClick($type, $shortUniqueTrackingTag, $userId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+
+
+/*
+* Sends an Page Request message to Kontagent.
+*
+* @param string $userId The UID of the user
+* @param int $timestamp The current timestamp
+* @param string $pageAddress The current page address (ex: index.html)
+*
+* @throws KtParameterException An invalid parameter value was provided
+*/
+public function trackPageRequest($userId, $ipAddress = null, $pageAddress = null)
+
+
+/*
+* Sends an User Information message to Kontagent.
+*
+* @param string $userId The UID of the user
+* @param int $birthYear The birth year of the user
+* @param string $gender The gender of the user (m,f,u)
+* @param string $country The 2-character country code of the user
+* @param int $friendCount The friend count of the user
+*
+* @throws KtParameterException An invalid parameter value was provided
+*/
+public function trackUserInformation($userId, $birthYear = null, $gender = null, $country = null, $friendCount = null)
+
+
+/*
+* Sends an Goal Count message to Kontagent.
+*
+* @param string $userId The UID of the user
+* @param int $goalCount1 The amount to increment goal count 1 by
+* @param int $goalCount2 The amount to increment goal count 2 by
+* @param int $goalCount3 The amount to increment goal count 3 by
+* @param int $goalCount4 The amount to increment goal count 4 by
+*
+* @throws KtParameterException An invalid parameter value was provided
+*/
+public function trackGoalCount($userId, $goalCount1 = null, $goalCount2 = null, $goalCount3 = null, $goalCount4 = null)
+
+
+/*
+* Sends an Goal Count message to Kontagent.
+*
+* @param string $userId The UID of the user
+* @param int $value The amount of revenue in cents
+* @param string $type The transaction type (direct, indirect, advertisement, credits, other)
+* @param string $subtype1 Subtype1 value (max 32 chars)
+* @param string $subtype2 Subtype2 value (max 32 chars)
+* @param string $subtype3 Subtype3 value (max 32 chars)
+*
+* @throws KtParameterException An invalid parameter value was provided
+*/
+public function trackRevenueTracking($userId, $value, $type = null,  $subtype1 = null, $subtype2 = null, $subtype3 = null)

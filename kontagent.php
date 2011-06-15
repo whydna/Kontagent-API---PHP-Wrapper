@@ -84,8 +84,8 @@ class Kontagent
 	*/
 	public function genUniqueTrackingTag()
 	{
-		$uniqueTrackingTag = uniqid() . uniqid() . uniqid();
-		return substr($uniqueTrackingTag, 0, 32);
+		$uniqueTrackingTag = uniqid() . uniqid();
+		return substr($uniqueTrackingTag, -16);
 	}
 	
 	/*
@@ -95,9 +95,8 @@ class Kontagent
 	*/
 	public function genShortUniqueTrackingTag()
 	{
-		// this function should actually return a shorter tracking tag
-		// but for now this is fine.
-		return $this->genUniqueTrackingTag();
+		$shortUniqueTrackingTag = uniqid();
+		return substr($shortUniqueTrackingTag, -8);
 	}
 	
 	/*
@@ -735,7 +734,7 @@ class KtValidator
 	private static function validateSu($messageType, $paramValue, &$errorMessage = null)
 	{
 		// short tracking tag param
-		if (preg_match('/^[A-Fa-f0-9]{32}$/', $paramValue) == 0) {
+		if (preg_match('/^[A-Fa-f0-9]{8}$/', $paramValue) == 0) {
 			$errorMessage = 'Invalid short unique tracking tag.';
 			return false;
 		} else {
