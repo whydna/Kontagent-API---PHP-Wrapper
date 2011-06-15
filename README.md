@@ -63,11 +63,11 @@ Which will help you generate the tracking tag parameters required to link certai
 Examples
 -----------------
 
-1. The Basics
-2. Installs and User Demographic
-3. Invites
-4. Events
-5. Revenue
+1. The Basics (page request, user demographic, installs)
+2. Invites (same as stream posts)
+3. Third-Party Communication Click (ad/partner click tracking)
+4. Custom Events
+
 
 Full Class Reference
 -----------------
