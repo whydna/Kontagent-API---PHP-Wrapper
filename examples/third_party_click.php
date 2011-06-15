@@ -10,14 +10,14 @@ require_once './kontagent.php';
 require_once './facebook.php';
 
 // instantiate and configure kontagent
-$ktApiKey ='your_kt_api_key';
-$ktSecretKey = 'your_kt_secret_key';
+$ktApiKey = '<YOUR_KT_API_KEY>';
+$ktSecretKey = '<YOUR_KT_SECRET_KEY>';
 $useTestServer = true;
 $kt = new Kontagent($ktApiKey, $ktSecretKey, $useTestServer);
 
 // instantiate facebook lib
-$fbAppId = 'your_fb_app_id';
-$fbSecretKey = 'your_fb_secret_key';
+$fbAppId = '<YOUR_FB_APP_ID>';
+$fbSecretKey = '<YOUR_FB_SECRET_KEY>';
 $fb = new Facebook(array(
 	'appId' => $fbAppId,	
 	'secret' => $fbSecretKey
