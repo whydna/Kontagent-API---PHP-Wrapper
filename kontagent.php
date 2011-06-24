@@ -245,7 +245,6 @@ class Kontagent
 	/*
 	* Sends an Notification Email Response message to Kontagent.
 	*
-	* @param bool $appIsInstalled Whether the responding user already has your application installed
 	* @param string $uniqueTrackingTag 32-digit hex string used to match 
 	*	NotificationEmailSent->NotificationEmailResponse->ApplicationAdded messages. 
 	*	See the genUniqueTrackingTag() helper method.
@@ -431,7 +430,7 @@ class Kontagent
 	* Sends an Page Request message to Kontagent.
 	*
 	* @param string $userId The UID of the user
-	* @param int $timestamp The current timestamp
+	* @param int $ipAddress The current users IP address
 	* @param string $pageAddress The current page address (ex: index.html)
 	*
 	* @throws KtParameterException An invalid parameter value was provided
@@ -496,7 +495,7 @@ class Kontagent
 	}
 
 	/*
-	* Sends an Goal Count message to Kontagent.
+	* Sends an Revenue message to Kontagent.
 	*
 	* @param string $userId The UID of the user
 	* @param int $value The amount of revenue in cents
@@ -507,7 +506,7 @@ class Kontagent
 	*
 	* @throws KtParameterException An invalid parameter value was provided
 	*/
-	public function trackRevenueTracking($userId, $value, $type = null,  $subtype1 = null, $subtype2 = null, $subtype3 = null)
+	public function trackRevenue($userId, $value, $type = null,  $subtype1 = null, $subtype2 = null, $subtype3 = null)
 	{
 		$params = array(
 			's' => $userId,
@@ -612,7 +611,7 @@ class KtValidator
 	private static function validateI($messageType, $paramValue, &$errorMessage = null)
 	{
 		// isAppInstalled param (inr, psr, ner, nei messages)
-		if (preg_match('/^(0|1)$/', $paramValue) == 0) {
+		if (preg_match('/^[01]$/', $paramValue) == 0) {
 			$errorMessage = 'Invalid isAppInstalled value.';
 			return false;
 		} else {
@@ -758,17 +757,17 @@ class KtValidator
 		// type parameter (mtu, pst/psr, ucc messages)
 		// acceptable values for this parameter depends on the message type
 		if ($messageType == 'mtu') {
-			if (preg_match('/^direct|indirect|advertisement|credits|other$/', $paramValue) == 0) {
+			if (preg_match('/^(direct|indirect|advertisement|credits|other)$/', $paramValue) == 0) {
 				$errorMessage = 'Invalid monetization type.';
 				return false;
 			}
 		} elseif ($messageType == 'pst' || $messageType == 'psr') {
-			if (preg_match('/^feedpub|stream|feedstory|multifeedstory|dashboard_activity|dashboard_globalnews$/', $paramValue) == 0) {
+			if (preg_match('/^(feedpub|stream|feedstory|multifeedstory|dashboard_activity|dashboard_globalnews)$/', $paramValue) == 0) {
 				$errorMessage = 'Invalid stream post/response type.';
 				return false;
 			}
 		} elseif ($messageType == 'ucc') {
-			if (preg_match('/^ad|partner$/', $paramValue) == 0) {
+			if (preg_match('/^(ad|partner)$/', $paramValue) == 0) {
 				$errorMessage = 'Invalid third party communication click type.';
 				return false;
 			}
