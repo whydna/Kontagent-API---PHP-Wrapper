@@ -38,7 +38,7 @@ class Kontagent
 	* @param array $params An associative array containing paramName => value (ex: 's'=>123456789)
 	* @param string $errorMessage The error message on failure
 	* 
-	* @return Returns true on success, false otherwise
+	* @return bool Returns true on success, false otherwise
 	*/
 	private function sendMessage($messageType, Array $params, &$errorMessage = null)
 	{
@@ -111,7 +111,7 @@ class Kontagent
 	* @param string $subtype3 Subtype3 value (max 32 chars)
 	* @param string $errorMessage The error message on failure
 	* 
-	* @return Returns true on success, false otherwise
+	* @return bool Returns true on success, false otherwise
 	*/
 	public function trackInviteSent($userId, $recipientUserIds, $uniqueTrackingTag, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{	
@@ -140,7 +140,7 @@ class Kontagent
 	* @param string $subtype3 Subtype3 value (max 32 chars)
 	* @param string $errorMessage The error message on failure
 	* 
-	* @return Returns true on success, false otherwise
+	* @return bool Returns true on success, false otherwise
 	*/
 	public function trackInviteResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
@@ -170,7 +170,7 @@ class Kontagent
 	* @param string $subtype3 Subtype3 value (max 32 chars)
 	* @param string $errorMessage The error message on failure
 	* 
-	* @return Returns true on success, false otherwise
+	* @return bool Returns true on success, false otherwise
 	*/
 	public function trackNotificationSent($userId, $recipientUserIds, $uniqueTrackingTag, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
@@ -199,7 +199,7 @@ class Kontagent
 	* @param string $subtype3 Subtype3 value (max 32 chars)
 	* @param string $errorMessage The error message on failure
 	* 
-	* @return Returns true on success, false otherwise
+	* @return bool Returns true on success, false otherwise
 	*/
 	public function trackNotificationResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
@@ -229,7 +229,7 @@ class Kontagent
 	* @param string $subtype3 Subtype3 value (max 32 chars)
 	* @param string $errorMessage The error message on failure
 	* 
-	* @return Returns true on success, false otherwise
+	* @return bool Returns true on success, false otherwise
 	*/
 	public function trackNotificationEmailSent($userId, $recipientUserIds, $uniqueTrackingTag, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
@@ -258,7 +258,7 @@ class Kontagent
 	* @param string $subtype3 Subtype3 value (max 32 chars)
 	* @param string $errorMessage The error message on failure
 	* 
-	* @return Returns true on success, false otherwise
+	* @return bool Returns true on success, false otherwise
 	*/
 	public function trackNotificationEmailResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
@@ -289,7 +289,7 @@ class Kontagent
 	* @param string $subtype3 Subtype3 value (max 32 chars)
 	* @param string $errorMessage The error message on failure
 	* 
-	* @return Returns true on success, false otherwise
+	* @return bool Returns true on success, false otherwise
 	*/
 	public function trackStreamPost($userId, $uniqueTrackingTag, $type, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
@@ -320,7 +320,7 @@ class Kontagent
 	* @param string $subtype3 Subtype3 value (max 32 chars)
 	* @param string $errorMessage The error message on failure
 	* 
-	* @return Returns true on success, false otherwise
+	* @return bool Returns true on success, false otherwise
 	*/
 	public function trackStreamPostResponse($uniqueTrackingTag, $type, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
@@ -350,7 +350,7 @@ class Kontagent
 	* @param string $subtype3 Subtype3 value (max 32 chars)
 	* @param string $errorMessage The error message on failure
 	* 
-	* @return Returns true on success, false otherwise
+	* @return bool Returns true on success, false otherwise
 	*/
 	public function trackEvent($userId, $eventName, $value = null, $level = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
@@ -380,7 +380,7 @@ class Kontagent
 	*	See the genShortUniqueTrackingTag() helper method.
 	* @param string $errorMessage The error message on failure
 	* 
-	* @return Returns true on success, false otherwise
+	* @return bool Returns true on success, false otherwise
 	*/
 	public function trackApplicationAdded($userId, $uniqueTrackingTag = null, $shortUniqueTrackingTag = null, &$errorMessage = null)
 	{
@@ -398,7 +398,7 @@ class Kontagent
 	* @param string $userId The UID of the removing user
 	* @param string $errorMessage The error message on failure
 	* 
-	* @return Returns true on success, false otherwise
+	* @return bool Returns true on success, false otherwise
 	*/
 	public function trackApplicationRemoved($userId, &$errorMessage = null)
 	{
@@ -419,7 +419,7 @@ class Kontagent
 	* @param string $subtype3 Subtype3 value (max 32 chars)
 	* @param string $errorMessage The error message on failure
 	* 
-	* @return Returns true on success, false otherwise
+	* @return bool Returns true on success, false otherwise
 	*/
 	public function trackThirdPartyCommClick($type, $shortUniqueTrackingTag, $userId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
@@ -445,7 +445,7 @@ class Kontagent
 	* @param string $pageAddress The current page address (ex: index.html)
 	* @param string $errorMessage The error message on failure
 	* 
-	* @return Returns true on success, false otherwise
+	* @return bool Returns true on success, false otherwise
 	*/
 	public function trackPageRequest($userId, $ipAddress = null, $pageAddress = null, &$errorMessage = null)
 	{
@@ -470,7 +470,7 @@ class Kontagent
 	* @param int $friendCount The friend count of the user
 	* @param string $errorMessage The error message on failure
 	* 
-	* @return Returns true on success, false otherwise
+	* @return bool Returns true on success, false otherwise
 	*/
 	public function trackUserInformation($userId, $birthYear = null, $gender = null, $country = null, $friendCount = null, &$errorMessage = null)
 	{
@@ -494,7 +494,7 @@ class Kontagent
 	* @param int $goalCount4 The amount to increment goal count 4 by
 	* @param string $errorMessage The error message on failure
 	* 
-	* @return Returns true on success, false otherwise
+	* @return bool Returns true on success, false otherwise
 	*/
 	public function trackGoalCount($userId, $goalCount1 = null, $goalCount2 = null, $goalCount3 = null, $goalCount4 = null, &$errorMessage = null)
 	{
@@ -519,7 +519,7 @@ class Kontagent
 	* @param string $subtype3 Subtype3 value (max 32 chars)
 	* @param string $errorMessage The error message on failure
 	* 
-	* @return Returns true on success, false otherwise
+	* @return bool Returns true on success, false otherwise
 	*/
 	public function trackRevenue($userId, $value, $type = null,  $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
