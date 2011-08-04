@@ -1,9 +1,5 @@
 <?php
 
-class KtParameterException extends Exception
-{
-}
-
 class Kontagent
 {
 	private $baseApiUrl = "http://api.geo.kontagent.net/api/v1/";
@@ -24,7 +20,7 @@ class Kontagent
 	* @param bool $useTestServer Whether to send messages to the Kontagent Test Server
 	* @param bool $validateParams Whether to validate the parameters passed into the tracking methods
 	*/
-	public function __construct($apiKey, $apiSecret, $useTestServer = false, $validateParams = true)
+	public function __construct($apiKey, $apiSecret, $useTestServer = false, $validateParams = false)
 	{
 		$this->apiKey = $apiKey;
 		$this->apiSecret = $apiSecret;
@@ -40,10 +36,11 @@ class Kontagent
 	*
 	* @param string $messageType The message type to send ('apa', 'ins', etc.)
 	* @param array $params An associative array containing paramName => value (ex: 's'=>123456789)
-	*
-	* @throws KtParameterException An invalid parameter value was provided
+	* @param string $errorMessage The error message on failure
+	* 
+	* @return Returns true on success, false otherwise
 	*/
-	private function sendMessage($messageType, Array $params)
+	private function sendMessage($messageType, Array $params, &$errorMessage = null)
 	{
 		if ($this->validateParams) {
 			// validate the message parameters
@@ -51,7 +48,7 @@ class Kontagent
 			
 			foreach($params as $paramName => $paramValue) {
 				if (!KtValidator::validateParameter($messageType, $paramName, $paramValue, $errorMessage)) {
-					throw new KtParameterException($errorMessage);
+					return false;
 				}
 			}
 		}
@@ -75,6 +72,8 @@ class Kontagent
 		} else {
 			file_get_contents($url);
 		}
+
+		return true;
 	}
 	
 	/*
@@ -110,10 +109,11 @@ class Kontagent
 	* @param string $subtype1 Subtype1 value (max 32 chars)
 	* @param string $subtype2 Subtype2 value (max 32 chars)
 	* @param string $subtype3 Subtype3 value (max 32 chars)
-	*
-	* @throws KtParameterException An invalid parameter value was provided
+	* @param string $errorMessage The error message on failure
+	* 
+	* @return Returns true on success, false otherwise
 	*/
-	public function trackInviteSent($userId, $recipientUserIds, $uniqueTrackingTag, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+	public function trackInviteSent($userId, $recipientUserIds, $uniqueTrackingTag, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{	
 		$params = array(
 			's' => $userId,
@@ -125,7 +125,7 @@ class Kontagent
 		if ($subtype2) { $params['st2'] = $subtype2; }
 		if ($subtype3) { $params['st3'] = $subtype3; }
 			
-		$this->sendMessage("ins", $params);
+		return $this->sendMessage("ins", $params, $errorMessage);
 	}
 	
 	/*
@@ -138,10 +138,11 @@ class Kontagent
 	* @param string $subtype1 Subtype1 value (max 32 chars)
 	* @param string $subtype2 Subtype2 value (max 32 chars)
 	* @param string $subtype3 Subtype3 value (max 32 chars)
-	*
-	* @throws KtParameterException An invalid parameter value was provided
+	* @param string $errorMessage The error message on failure
+	* 
+	* @return Returns true on success, false otherwise
 	*/
-	public function trackInviteResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+	public function trackInviteResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
 		$params = array(
 			'i' => 0,
@@ -153,7 +154,7 @@ class Kontagent
 		if ($subtype2) { $params['st2'] = $subtype2; }
 		if ($subtype3) { $params['st3'] = $subtype3; }
 	
-		$this->sendMessage("inr", $params);
+		return $this->sendMessage("inr", $params, $errorMessage);
 	}
 	
 	/*
@@ -167,10 +168,11 @@ class Kontagent
 	* @param string $subtype1 Subtype1 value (max 32 chars)
 	* @param string $subtype2 Subtype2 value (max 32 chars)
 	* @param string $subtype3 Subtype3 value (max 32 chars)
-	*
-	* @throws KtParameterException An invalid parameter value was provided
+	* @param string $errorMessage The error message on failure
+	* 
+	* @return Returns true on success, false otherwise
 	*/
-	public function trackNotificationSent($userId, $recipientUserIds, $uniqueTrackingTag, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+	public function trackNotificationSent($userId, $recipientUserIds, $uniqueTrackingTag, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
 		$params = array(
 			's' => $userId,
@@ -182,7 +184,7 @@ class Kontagent
 		if ($subtype2) { $params['st2'] = $subtype2; }
 		if ($subtype3) { $params['st3'] = $subtype3; }
 		
-		$this->sendMessage("nts", $params);
+		return $this->sendMessage("nts", $params, $errorMessage);
 	}
 
 	/*
@@ -195,10 +197,11 @@ class Kontagent
 	* @param string $subtype1 Subtype1 value (max 32 chars)
 	* @param string $subtype2 Subtype2 value (max 32 chars)
 	* @param string $subtype3 Subtype3 value (max 32 chars)
-	*
-	* @throws KtParameterException An invalid parameter value was provided
+	* @param string $errorMessage The error message on failure
+	* 
+	* @return Returns true on success, false otherwise
 	*/
-	public function trackNotificationResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+	public function trackNotificationResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
 		$params = array(
 			'i' => 0,
@@ -210,7 +213,7 @@ class Kontagent
 		if ($subtype2) { $params['st2'] = $subtype2; }
 		if ($subtype3) { $params['st3'] = $subtype3; }
 	
-		$this->sendMessage("ntr", $params);
+		return $this->sendMessage("ntr", $params, $errorMessage);
 	}
 	
 	/*
@@ -224,10 +227,11 @@ class Kontagent
 	* @param string $subtype1 Subtype1 value (max 32 chars)
 	* @param string $subtype2 Subtype2 value (max 32 chars)
 	* @param string $subtype3 Subtype3 value (max 32 chars)
-	*
-	* @throws KtParameterException An invalid parameter value was provided
+	* @param string $errorMessage The error message on failure
+	* 
+	* @return Returns true on success, false otherwise
 	*/
-	public function trackNotificationEmailSent($userId, $recipientUserIds, $uniqueTrackingTag, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+	public function trackNotificationEmailSent($userId, $recipientUserIds, $uniqueTrackingTag, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
 		$params = array(
 			's' => $userId,
@@ -239,7 +243,7 @@ class Kontagent
 		if ($subtype2) { $params['st2'] = $subtype2; }
 		if ($subtype3) { $params['st3'] = $subtype3; }
 	
-		$this->sendMessage("nes", $params);
+		return $this->sendMessage("nes", $params, $errorMessage);
 	}
 
 	/*
@@ -252,10 +256,11 @@ class Kontagent
 	* @param string $subtype1 Subtype1 value (max 32 chars)
 	* @param string $subtype2 Subtype2 value (max 32 chars)
 	* @param string $subtype3 Subtype3 value (max 32 chars)
-	*
-	* @throws KtParameterException An invalid parameter value was provided
+	* @param string $errorMessage The error message on failure
+	* 
+	* @return Returns true on success, false otherwise
 	*/
-	public function trackNotificationEmailResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+	public function trackNotificationEmailResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
 		$params = array(
 			'i' => 0,
@@ -267,7 +272,7 @@ class Kontagent
 		if ($subtype2) { $params['st2'] = $subtype2; }
 		if ($subtype3) { $params['st3'] = $subtype3; }
 	
-		$this->sendMessage("nei", $params);
+		return $this->sendMessage("nei", $params, $errorMessage);
 	}
 
 	/*
@@ -282,10 +287,11 @@ class Kontagent
 	* @param string $subtype1 Subtype1 value (max 32 chars)
 	* @param string $subtype2 Subtype2 value (max 32 chars)
 	* @param string $subtype3 Subtype3 value (max 32 chars)
-	*
-	* @throws KtParameterException An invalid parameter value was provided
+	* @param string $errorMessage The error message on failure
+	* 
+	* @return Returns true on success, false otherwise
 	*/
-	public function trackStreamPost($userId, $uniqueTrackingTag, $type, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+	public function trackStreamPost($userId, $uniqueTrackingTag, $type, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
 		$params = array(
 			's' => $userId,
@@ -297,7 +303,7 @@ class Kontagent
 		if ($subtype2) { $params['st2'] = $subtype2; }
 		if ($subtype3) { $params['st3'] = $subtype3; }
 		
-		$this->sendMessage("pst", $params);
+		return $this->sendMessage("pst", $params, $errorMessage);
 	}
 
 	/*
@@ -312,10 +318,11 @@ class Kontagent
 	* @param string $subtype1 Subtype1 value (max 32 chars)
 	* @param string $subtype2 Subtype2 value (max 32 chars)
 	* @param string $subtype3 Subtype3 value (max 32 chars)
-	*
-	* @throws KtParameterException An invalid parameter value was provided
+	* @param string $errorMessage The error message on failure
+	* 
+	* @return Returns true on success, false otherwise
 	*/
-	public function trackStreamPostResponse($uniqueTrackingTag, $type, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+	public function trackStreamPostResponse($uniqueTrackingTag, $type, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
 		$params = array(
 			'i' => 0,
@@ -328,7 +335,7 @@ class Kontagent
 		if ($subtype2) { $params['st2'] = $subtype2; }
 		if ($subtype3) { $params['st3'] = $subtype3; }
 	
-		$this->sendMessage("psr", $params);
+		return $this->sendMessage("psr", $params, $errorMessage);
 	}
 
 	/*
@@ -341,10 +348,11 @@ class Kontagent
 	* @param string $subtype1 Subtype1 value (max 32 chars)
 	* @param string $subtype2 Subtype2 value (max 32 chars)
 	* @param string $subtype3 Subtype3 value (max 32 chars)
-	*
-	* @throws KtParameterException An invalid parameter value was provided
+	* @param string $errorMessage The error message on failure
+	* 
+	* @return Returns true on success, false otherwise
 	*/
-	public function trackEvent($userId, $eventName, $value = null, $level = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+	public function trackEvent($userId, $eventName, $value = null, $level = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
 		$params = array(
 			's' => $userId,
@@ -357,7 +365,7 @@ class Kontagent
 		if ($subtype2) { $params['st2'] = $subtype2; }
 		if ($subtype3) { $params['st3'] = $subtype3; }
 	
-		$this->sendMessage("evt", $params);
+		return $this->sendMessage("evt", $params, $errorMessage);
 	}
 
 	/*
@@ -370,31 +378,33 @@ class Kontagent
 	* @param string $shortUniqueTrackingTag 8-digit hex string used to match 
 	*	ThirdPartyCommClicks->ApplicationAdded messages. 
 	*	See the genShortUniqueTrackingTag() helper method.
-	*
-	* @throws KtParameterException An invalid parameter value was provided
+	* @param string $errorMessage The error message on failure
+	* 
+	* @return Returns true on success, false otherwise
 	*/
-	public function trackApplicationAdded($userId, $uniqueTrackingTag = null, $shortUniqueTrackingTag = null)
+	public function trackApplicationAdded($userId, $uniqueTrackingTag = null, $shortUniqueTrackingTag = null, &$errorMessage = null)
 	{
 		$params = array('s' => $userId);
 		
 		if ($uniqueTrackingTag) { $params['u'] = $uniqueTrackingTag; }
 		if ($shortUniqueTrackingTag) { $params['su'] = $shortUniqueTrackingTag; }
 	
-		$this->sendMessage("apa", $params);
+		return $this->sendMessage("apa", $params, $errorMessage);
 	}
 
 	/*
 	* Sends an Application Removed message to Kontagent.
 	*
 	* @param string $userId The UID of the removing user
-	*
-	* @throws KtParameterException An invalid parameter value was provided
+	* @param string $errorMessage The error message on failure
+	* 
+	* @return Returns true on success, false otherwise
 	*/
-	public function trackApplicationRemoved($userId)
+	public function trackApplicationRemoved($userId, &$errorMessage = null)
 	{
 		$params = array('s' => $userId);
 	
-		$this->sendMessage("apr", $params);
+		return $this->sendMessage("apr", $params, $errorMessage);
 	}
 	
 	/*
@@ -407,10 +417,11 @@ class Kontagent
 	* @param string $subtype1 Subtype1 value (max 32 chars)
 	* @param string $subtype2 Subtype2 value (max 32 chars)
 	* @param string $subtype3 Subtype3 value (max 32 chars)
-	*
-	* @throws KtParameterException An invalid parameter value was provided
+	* @param string $errorMessage The error message on failure
+	* 
+	* @return Returns true on success, false otherwise
 	*/
-	public function trackThirdPartyCommClick($type, $shortUniqueTrackingTag, $userId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null)
+	public function trackThirdPartyCommClick($type, $shortUniqueTrackingTag, $userId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
 		$params = array(
 			'i' => 0,
@@ -423,7 +434,7 @@ class Kontagent
 		if ($subtype2) { $params['st2'] = $subtype2; }
 		if ($subtype3) { $params['st3'] = $subtype3; }	
 	
-		$this->sendMessage("ucc", $params);
+		return $this->sendMessage("ucc", $params, $errorMessage);
 	}
 
 	/*
@@ -432,10 +443,11 @@ class Kontagent
 	* @param string $userId The UID of the user
 	* @param int $ipAddress The current users IP address
 	* @param string $pageAddress The current page address (ex: index.html)
-	*
-	* @throws KtParameterException An invalid parameter value was provided
+	* @param string $errorMessage The error message on failure
+	* 
+	* @return Returns true on success, false otherwise
 	*/
-	public function trackPageRequest($userId, $ipAddress = null, $pageAddress = null)
+	public function trackPageRequest($userId, $ipAddress = null, $pageAddress = null, &$errorMessage = null)
 	{
 		$params = array(
 			's' => $userId,
@@ -445,7 +457,7 @@ class Kontagent
 		if ($ipAddress) { $params['ip'] = $ipAddress; }
 		if ($pageAddress) { $params['u'] = $pageAddress; }
 	
-		$this->sendMessage("pgr", $params);
+		return $this->sendMessage("pgr", $params, $errorMessage);
 	}
 
 	/*
@@ -456,10 +468,11 @@ class Kontagent
 	* @param string $gender The gender of the user (m,f,u)
 	* @param string $country The 2-character country code of the user
 	* @param int $friendCount The friend count of the user
-	*
-	* @throws KtParameterException An invalid parameter value was provided
+	* @param string $errorMessage The error message on failure
+	* 
+	* @return Returns true on success, false otherwise
 	*/
-	public function trackUserInformation($userId, $birthYear = null, $gender = null, $country = null, $friendCount = null)
+	public function trackUserInformation($userId, $birthYear = null, $gender = null, $country = null, $friendCount = null, &$errorMessage = null)
 	{
 		$params = array('s' => $userId);
 		
@@ -468,7 +481,7 @@ class Kontagent
 		if ($country) { $params['lc'] = strtoupper($country); }
 		if ($friendCount) { $params['f'] = $friendCount; }
 
-		$this->sendMessage("cpu", $params);
+		return $this->sendMessage("cpu", $params, $errorMessage);
 	}
 
 	/*
@@ -479,10 +492,11 @@ class Kontagent
 	* @param int $goalCount2 The amount to increment goal count 2 by
 	* @param int $goalCount3 The amount to increment goal count 3 by
 	* @param int $goalCount4 The amount to increment goal count 4 by
-	*
-	* @throws KtParameterException An invalid parameter value was provided
+	* @param string $errorMessage The error message on failure
+	* 
+	* @return Returns true on success, false otherwise
 	*/
-	public function trackGoalCount($userId, $goalCount1 = null, $goalCount2 = null, $goalCount3 = null, $goalCount4 = null)
+	public function trackGoalCount($userId, $goalCount1 = null, $goalCount2 = null, $goalCount3 = null, $goalCount4 = null, &$errorMessage = null)
 	{
 		$params = array('s' => $userId);
 		
@@ -491,7 +505,7 @@ class Kontagent
 		if ($goalCount3) { $params['gc3'] = $goalCount3; }
 		if ($goalCount4) { $params['gc4'] = $goalCount4; }
 	
-		$this->sendMessage("gci", $params);
+		return $this->sendMessage("gci", $params, $errorMessage);
 	}
 
 	/*
@@ -503,10 +517,11 @@ class Kontagent
 	* @param string $subtype1 Subtype1 value (max 32 chars)
 	* @param string $subtype2 Subtype2 value (max 32 chars)
 	* @param string $subtype3 Subtype3 value (max 32 chars)
-	*
-	* @throws KtParameterException An invalid parameter value was provided
+	* @param string $errorMessage The error message on failure
+	* 
+	* @return Returns true on success, false otherwise
 	*/
-	public function trackRevenue($userId, $value, $type = null,  $subtype1 = null, $subtype2 = null, $subtype3 = null)
+	public function trackRevenue($userId, $value, $type = null,  $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
 	{
 		$params = array(
 			's' => $userId,
@@ -518,7 +533,7 @@ class Kontagent
 		if ($subtype2) { $params['st2'] = $subtype2; }
 		if ($subtype3) { $params['st3'] = $subtype3; }
 	
-		$this->sendMessage("mtu", $params);
+		return $this->sendMessage("mtu", $params, $errorMessage);
 	}
 }
 

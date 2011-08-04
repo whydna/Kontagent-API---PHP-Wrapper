@@ -30,9 +30,11 @@ if (isset($_POST['user_action'])) {
 
 <html>
 	<head>
-		<title></title>
+		<title>Kontagent Instrumentation Example: Events</title>
 	</head>
 	<body>
+		<h1>Hello Kontagent!</h1>
+
 		<form action="" method="post">
 			<input type="radio" name="user_action" value="action_1"/> Action 1<br/>
 			<input type="radio" name="user_action" value="action_2"/> Action 2<br/>

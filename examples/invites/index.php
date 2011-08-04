@@ -42,6 +42,8 @@ if (isset($_GET['request_ids'])) {
 		<title>Kontagent Instrumentation Example: Invites</title>
 	</head>
 	<body>
+		<h1>Hello Kontagent!</h1>
+		
 		<?php	
 		// Generate the Facebook invite. Note the '$data' field where we embed some information we will need
 		// to access later.

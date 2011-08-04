@@ -46,3 +46,12 @@ if (isset($_GET['kt_type'])) {
 }
 
 ?>
+
+<html>
+	<head>
+		<title>Kontagent Instrumentation Example: Third Party Click</title>
+	</head>
+	<body>
+		<h1>Hello Kontagent!</h1>
+	</body>
+</html>
