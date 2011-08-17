@@ -6,16 +6,16 @@ This is a PHP wrapper around Kontagent's API. It provides methods to make the AP
 Getting Started
 -----------------
 
-To get started with the Kontagent library, you will need to check-out the kontagent.php file and include it in your project. You will also need to instantiate and configure
+To get started with the Kontagent library, you will need to check-out the kontagent_api.php file and include it in your project. You will also need to instantiate and configure
 an instance of the Kontagent object.
 
     <?php
 
     // include the library
-    require_once('./kontagent.php');
+    require_once('./kontagent_api.php');
 
     // configure and instantiate Kontagent object
-    $kt = new Kontagent($ktApiKey, $ktSecretKey, $useTestServer);
+    $kt = new KontagentApi($ktApiKey, array('useTestServer' => true, 'validateParams' => true));
 
     ?>
 
@@ -30,13 +30,13 @@ The tracking methods should get called by your application whenever you need to 
 
     <?php
 
-    $kt->trackApplicationAdded($userId, $uniqueTrackingTag = null, $shortUniqueTrackingTag = null);
+    $kt->trackApplicationAdded($userId);
 
-    $kt->trackPageRequest($userId, $timestamp, $ipAddress = null, $pageAddress = null);
+    $kt->trackPageRequest($userId);
 
-    $kt->trackEvent($userId, $eventName, $value = null, $level = null, $subtype1 = null, $subtype2 = null, $subtype3 = null);
+    $kt->trackEvent($userId, $eventName, array('value' => 5));
 
-    $kt->trackRevenue($userId, $value, $type = null,  $subtype1 = null, $subtype2 = null, $subtype3 = null);
+    $kt->trackRevenue($userId, $value, array('type' => 'credit'));
 
     ?>
 
@@ -71,12 +71,23 @@ Full Class Reference
 -----------------
 
     /*
+    * Kontagent class constructor
+    *
+    * @param string $apiKey The app's Kontagent API key
+    * @param array $optionalParams An associative array containing paramName => value
+    * @param bool $optionalParams['useTestServer'] Whether to send messages to the Kontagent Test Server
+    * @param bool $optionalParams['validateParams'] Whether to validate the parameters passed into the tracking methods
+    */
+    public function __construct($apiKey, $optionalParams = array())
+
+
+    /*
     * Generates a unique tracking tag.
     *
     * @return string The unique tracking tag
     */
     public function genUniqueTrackingTag()
-    
+
     
     /*
     * Generates a short unique tracking tag.
@@ -84,8 +95,8 @@ Full Class Reference
     * @return string The short unique tracking tag
     */
     public function genShortUniqueTrackingTag()
-
     
+
     /*
     * Sends an Invite Sent message to Kontagent.
     *
@@ -94,14 +105,15 @@ Full Class Reference
     * @param string $uniqueTrackingTag 32-digit hex string used to match 
     *    InviteSent->InviteResponse->ApplicationAdded messages. 
     *    See the genUniqueTrackingTag() helper method.
-    * @param string $subtype1 Subtype1 value (max 32 chars)
-    * @param string $subtype2 Subtype2 value (max 32 chars)
-    * @param string $subtype3 Subtype3 value (max 32 chars)
-    * @param string $errorMessage The error message on failure
+    * @param array $optionalParams An associative array containing paramName => value
+    * @param string $optionalParams['subtype1'] Subtype1 value (max 32 chars)
+    * @param string $optionalParams['subtype2'] Subtype2 value (max 32 chars)
+    * @param string $optionalParams['subtype3'] Subtype3 value (max 32 chars)
+    * @param string $validationErrorMsg The error message on validation failure
     * 
-    * @return bool Returns true on success, false otherwise
+    * @return bool Returns false on validation failure, true otherwise
     */
-    public function trackInviteSent($userId, $recipientUserIds, $uniqueTrackingTag, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
+    public function trackInviteSent($userId, $recipientUserIds, $uniqueTrackingTag, $optionalParams = array(), &$validationErrorMsg = null)
 
     
     /*
@@ -110,15 +122,16 @@ Full Class Reference
     * @param string $uniqueTrackingTag 32-digit hex string used to match 
     *    InviteSent->InviteResponse->ApplicationAdded messages. 
     *    See the genUniqueTrackingTag() helper method.
-    * @param string $recipientUserId The UID of the responding user
-    * @param string $subtype1 Subtype1 value (max 32 chars)
-    * @param string $subtype2 Subtype2 value (max 32 chars)
-    * @param string $subtype3 Subtype3 value (max 32 chars)
-    * @param string $errorMessage The error message on failure
+    * @param array $optionalParams An associative array containing paramName => value
+    * @param string $optionalParams['recipientUserId'] The UID of the responding user
+    * @param string $optionalParams['subtype1'] Subtype1 value (max 32 chars)
+    * @param string $optionalParams['subtype2'] Subtype2 value (max 32 chars)
+    * @param string $optionalParams['subtype3'] Subtype3 value (max 32 chars)
+    * @param string $validationErrorMsg The error message on validation failure
     * 
-    * @return bool Returns true on success, false otherwise
+    * @return bool Returns false on validation failure, true otherwise
     */
-    public function trackInviteResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
+    public function trackInviteResponse($uniqueTrackingTag, $optionalParams = array(), &$validationErrorMsg = null)
 
     
     /*
@@ -129,14 +142,15 @@ Full Class Reference
     * @param string $uniqueTrackingTag 32-digit hex string used to match 
     *    NotificationSent->NotificationResponse->ApplicationAdded messages. 
     *    See the genUniqueTrackingTag() helper method.
-    * @param string $subtype1 Subtype1 value (max 32 chars)
-    * @param string $subtype2 Subtype2 value (max 32 chars)
-    * @param string $subtype3 Subtype3 value (max 32 chars)
-    * @param string $errorMessage The error message on failure
+    * @param array $optionalParams An associative array containing paramName => value
+    * @param string $optionalParams['subtype1'] Subtype1 value (max 32 chars)
+    * @param string $optionalParams['subtype2'] Subtype2 value (max 32 chars)
+    * @param string $optionalParams['subtype3'] Subtype3 value (max 32 chars)
+    * @param string $validationErrorMsg The error message on validation failure
     * 
-    * @return bool Returns true on success, false otherwise
+    * @return bool Returns false on validation failure, true otherwise
     */
-    public function trackNotificationSent($userId, $recipientUserIds, $uniqueTrackingTag, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
+    public function trackNotificationSent($userId, $recipientUserIds, $uniqueTrackingTag, $optionalParams = array(), &$validationErrorMsg = null)
 
 
     /*
@@ -145,15 +159,16 @@ Full Class Reference
     * @param string $uniqueTrackingTag 32-digit hex string used to match 
     *    NotificationSent->NotificationResponse->ApplicationAdded messages. 
     *    See the genUniqueTrackingTag() helper method.
-    * @param string $recipientUserId The UID of the responding user
-    * @param string $subtype1 Subtype1 value (max 32 chars)
-    * @param string $subtype2 Subtype2 value (max 32 chars)
-    * @param string $subtype3 Subtype3 value (max 32 chars)
-    * @param string $errorMessage The error message on failure
+    * @param array $optionalParams An associative array containing paramName => value
+    * @param string $optionalParams['recipientUserId'] The UID of the responding user
+    * @param string $optionalParams['subtype1'] Subtype1 value (max 32 chars)
+    * @param string $optionalParams['subtype2'] Subtype2 value (max 32 chars)
+    * @param string $optionalParams['subtype3'] Subtype3 value (max 32 chars)
+    * @param string $validationErrorMsg The error message on validation failure
     * 
-    * @return bool Returns true on success, false otherwise
+    * @return bool Returns false on validation failure, true otherwise
     */
-    public function trackNotificationResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
+    public function trackNotificationResponse($uniqueTrackingTag, $optionalParams = array(), &$validationErrorMsg = null) 
 
     
     /*
@@ -164,14 +179,15 @@ Full Class Reference
     * @param string $uniqueTrackingTag 32-digit hex string used to match 
     *    NotificationEmailSent->NotificationEmailResponse->ApplicationAdded messages. 
     *    See the genUniqueTrackingTag() helper method.
-    * @param string $subtype1 Subtype1 value (max 32 chars)
-    * @param string $subtype2 Subtype2 value (max 32 chars)
-    * @param string $subtype3 Subtype3 value (max 32 chars)
-    * @param string $errorMessage The error message on failure
+    * @param array $optionalParams An associative array containing paramName => value
+    * @param string $optionalParams['subtype1'] Subtype1 value (max 32 chars)
+    * @param string $optionalParams['subtype2'] Subtype2 value (max 32 chars)
+    * @param string $optionalParams['subtype3'] Subtype3 value (max 32 chars)
+    * @param string $validationErrorMsg The error message on validation failure
     * 
-    * @return bool Returns true on success, false otherwise
+    * @return bool Returns false on validation failure, true otherwise
     */
-    public function trackNotificationEmailSent($userId, $recipientUserIds, $uniqueTrackingTag, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
+    public function trackNotificationEmailSent($userId, $recipientUserIds, $uniqueTrackingTag, $optionalParams = array(), &$validationErrorMsg = null) 
 
 
     /*
@@ -180,15 +196,16 @@ Full Class Reference
     * @param string $uniqueTrackingTag 32-digit hex string used to match 
     *    NotificationEmailSent->NotificationEmailResponse->ApplicationAdded messages. 
     *    See the genUniqueTrackingTag() helper method.
-    * @param string $recipientUserId The UID of the responding user
-    * @param string $subtype1 Subtype1 value (max 32 chars)
-    * @param string $subtype2 Subtype2 value (max 32 chars)
-    * @param string $subtype3 Subtype3 value (max 32 chars)
-    * @param string $errorMessage The error message on failure
+    * @param array $optionalParams An associative array containing paramName => value
+    * @param string $optionalParams['recipientUserId'] The UID of the responding user
+    * @param string $optionalParams['subtype1'] Subtype1 value (max 32 chars)
+    * @param string $optionalParams['subtype2'] Subtype2 value (max 32 chars)
+    * @param string $optionalParams['subtype3'] Subtype3 value (max 32 chars)
+    * @param string $validationErrorMsg The error message on validation failure
     * 
-    * @return bool Returns true on success, false otherwise
+    * @return bool Returns false on validation failure, true otherwise
     */
-    public function trackNotificationEmailResponse($uniqueTrackingTag, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
+    public function trackNotificationEmailResponse($uniqueTrackingTag, $optionalParams = array(), &$validationErrorMsg = null) 
 
 
     /*
@@ -200,14 +217,15 @@ Full Class Reference
     *    See the genUniqueTrackingTag() helper method.
     * @param string $type The Facebook channel type
     *    (feedpub, stream, feedstory, multifeedstory, dashboard_activity, or dashboard_globalnews).
-    * @param string $subtype1 Subtype1 value (max 32 chars)
-    * @param string $subtype2 Subtype2 value (max 32 chars)
-    * @param string $subtype3 Subtype3 value (max 32 chars)
-    * @param string $errorMessage The error message on failure
+    * @param array $optionalParams An associative array containing paramName => value
+    * @param string $optionalParams['subtype1'] Subtype1 value (max 32 chars)
+    * @param string $optionalParams['subtype2'] Subtype2 value (max 32 chars)
+    * @param string $optionalParams['subtype3'] Subtype3 value (max 32 chars)
+    * @param string $validationErrorMsg The error message on validation failure
     * 
-    * @return bool Returns true on success, false otherwise
+    * @return bool Returns false on validation failure, true otherwise
     */
-    public function trackStreamPost($userId, $uniqueTrackingTag, $type, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
+    public function trackStreamPost($userId, $uniqueTrackingTag, $type, $optionalParams = array(), &$validationErrorMsg = null)
 
 
     /*
@@ -218,15 +236,16 @@ Full Class Reference
     *    See the genUniqueTrackingTag() helper method.
     * @param string $type The Facebook channel type
     *    (feedpub, stream, feedstory, multifeedstory, dashboard_activity, or dashboard_globalnews).
-    * @param string $recipientUserId The UID of the responding user
-    * @param string $subtype1 Subtype1 value (max 32 chars)
-    * @param string $subtype2 Subtype2 value (max 32 chars)
-    * @param string $subtype3 Subtype3 value (max 32 chars)
-    * @param string $errorMessage The error message on failure
+    * @param array $optionalParams An associative array containing paramName => value
+    * @param string $optionalParams['recipientUserId'] The UID of the responding user
+    * @param string $optionalParams['subtype1'] Subtype1 value (max 32 chars)
+    * @param string $optionalParams['subtype2'] Subtype2 value (max 32 chars)
+    * @param string $optionalParams['subtype3'] Subtype3 value (max 32 chars)
+    * @param string $validationErrorMsg The error message on validation failure
     * 
-    * @return bool Returns true on success, false otherwise
+    * @return bool Returns false on validation failure, true otherwise
     */
-    public function trackStreamPostResponse($uniqueTrackingTag, $type, $recipientUserId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
+    public function trackStreamPostResponse($uniqueTrackingTag, $type, $optionalParams = array(), &$validationErrorMsg = null)
 
 
     /*
@@ -234,104 +253,110 @@ Full Class Reference
     *
     * @param string $userId The UID of the user
     * @param string $eventName The name of the event
-    * @param int $value A value associated with the event
-    * @param int $level A level associated with the event (must be positive)
-    * @param string $subtype1 Subtype1 value (max 32 chars)
-    * @param string $subtype2 Subtype2 value (max 32 chars)
-    * @param string $subtype3 Subtype3 value (max 32 chars)
-    * @param string $errorMessage The error message on failure
+    * @param array $optionalParams An associative array containing paramName => value
+    * @param int $optionalParams['value'] A value associated with the event
+    * @param int $optionalParams['level'] A level associated with the event (must be positive)
+    * @param string $optionalParams['subtype1'] Subtype1 value (max 32 chars)
+    * @param string $optionalParams['subtype2'] Subtype2 value (max 32 chars)
+    * @param string $optionalParams['subtype3'] Subtype3 value (max 32 chars)
+    * @param string $validationErrorMsg The error message on validation failure
     * 
-    * @return bool Returns true on success, false otherwise
+    * @return bool Returns false on validation failure, true otherwise
     */
-    public function trackEvent($userId, $eventName, $value = null, $level = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
+    public function trackEvent($userId, $eventName, $optionalParams = array(), &$validationErrorMsg = null)
 
 
     /*
     * Sends an Application Added message to Kontagent.
     *
     * @param string $userId The UID of the installing user
-    * @param string $uniqueTrackingTag 16-digit hex string used to match 
+    * @param array $optionalParams An associative array containing paramName => value
+    * @param string $optionalParams['uniqueTrackingTag'] 16-digit hex string used to match 
     *    Invite/StreamPost/NotificationSent/NotificationEmailSent->ApplicationAdded messages. 
     *    See the genUniqueTrackingTag() helper method.
-    * @param string $shortUniqueTrackingTag 8-digit hex string used to match 
+    * @param string $optionalParams['shortUniqueTrackingTag'] 8-digit hex string used to match 
     *    ThirdPartyCommClicks->ApplicationAdded messages. 
     *    See the genShortUniqueTrackingTag() helper method.
-    * @param string $errorMessage The error message on failure
+    * @param string $validationErrorMsg The error message on validation failure
     * 
-    * @return bool Returns true on success, false otherwise
+    * @return bool Returns false on validation failure, true otherwise
     */
-    public function trackApplicationAdded($userId, $uniqueTrackingTag = null, $shortUniqueTrackingTag = null, &$errorMessage = null)
+    public function trackApplicationAdded($userId, $optionalParams = array(), &$validationErrorMsg = null) 
 
 
     /*
     * Sends an Application Removed message to Kontagent.
     *
     * @param string $userId The UID of the removing user
-    * @param string $errorMessage The error message on failure
+    * @param string $validationErrorMsg The error message on validation failure
     * 
-    * @return bool Returns true on success, false otherwise
+    * @return bool Returns false on validation failure, true otherwise
     */
-    public function trackApplicationRemoved($userId, &$errorMessage = null)
+    public function trackApplicationRemoved($userId, &$validationErrorMsg = null) 
 
     
     /*
     * Sends an Third Party Communication Click message to Kontagent.
     *
     * @param string $type The third party comm click type (ad, partner).
-    * @param string $shortUniqueTrackingTag 8-digit hex string used to match 
+    * @param array $optionalParams An associative array containing paramName => value
+    * @param string $optionalParams['shortUniqueTrackingTag'] 8-digit hex string used to match 
     *    ThirdPartyCommClicks->ApplicationAdded messages. 
-    * @param string $userId The UID of the user
-    * @param string $subtype1 Subtype1 value (max 32 chars)
-    * @param string $subtype2 Subtype2 value (max 32 chars)
-    * @param string $subtype3 Subtype3 value (max 32 chars)
-    * @param string $errorMessage The error message on failure
+    * @param string $optionalParams['userId'] The UID of the user
+    * @param string $optionalParams['subtype1'] Subtype1 value (max 32 chars)
+    * @param string $optionalParams['subtype2'] Subtype2 value (max 32 chars)
+    * @param string $optionalParams['subtype3'] Subtype3 value (max 32 chars)
+    * @param string $validationErrorMsg The error message on validation failure
     * 
-    * @return bool Returns true on success, false otherwise
+    * @return bool Returns false on validation failure, true otherwise
     */
-    public function trackThirdPartyCommClick($type, $shortUniqueTrackingTag, $userId = null, $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
+    public function trackThirdPartyCommClick($type, $optionalParams = array(), &$validationErrorMsg = null) 
 
 
     /*
     * Sends an Page Request message to Kontagent.
     *
     * @param string $userId The UID of the user
-    * @param int $ipAddress The current users IP address
-    * @param string $pageAddress The current page address (ex: index.html)
-    * @param string $errorMessage The error message on failure
+    * @param array $optionalParams An associative array containing paramName => value
+    * @param int $optionalParams['ipAddress'] The current users IP address
+    * @param string $optionalParams['pageAddress'] The current page address (ex: index.html)
+    * @param string $validationErrorMsg The error message on validation failure
     * 
-    * @return bool Returns true on success, false otherwise
+    * @return bool Returns false on validation failure, true otherwise
     */
-    public function trackPageRequest($userId, $ipAddress = null, $pageAddress = null, &$errorMessage = null)
+    public function trackPageRequest($userId, $optionalParams = array(), &$validationErrorMsg = null)
 
 
     /*
     * Sends an User Information message to Kontagent.
     *
     * @param string $userId The UID of the user
-    * @param int $birthYear The birth year of the user
-    * @param string $gender The gender of the user (m,f,u)
-    * @param string $country The 2-character country code of the user
-    * @param int $friendCount The friend count of the user
-    * @param string $errorMessage The error message on failure
+    * @param array $optionalParams An associative array containing paramName => value
+    * @param int $optionalParams['birthYear'] The birth year of the user
+    * @param string $optionalParams['gender'] The gender of the user (m,f,u)
+    * @param string $optionalParams['country'] The 2-character country code of the user
+    * @param int $optionalParams['friendCount'] The friend count of the user
+    * @param string $validationErrorMsg The error message on validation failure
     * 
-    * @return bool Returns true on success, false otherwise
+    * @return bool Returns false on validation failure, true otherwise
     */
-    public function trackUserInformation($userId, $birthYear = null, $gender = null, $country = null, $friendCount = null, &$errorMessage = null)
+    public function trackUserInformation($userId, $optionalParams = array(), &$validationErrorMsg = null)
 
-    
+
     /*
     * Sends an Goal Count message to Kontagent.
     *
     * @param string $userId The UID of the user
-    * @param int $goalCount1 The amount to increment goal count 1 by
-    * @param int $goalCount2 The amount to increment goal count 2 by
-    * @param int $goalCount3 The amount to increment goal count 3 by
-    * @param int $goalCount4 The amount to increment goal count 4 by
-    * @param string $errorMessage The error message on failure
+    * @param array $optionalParams An associative array containing paramName => value
+    * @param int $optionalParams['goalCount1'] The amount to increment goal count 1 by
+    * @param int $optionalParams['goalCount2'] The amount to increment goal count 2 by
+    * @param int $optionalParams['goalCount3'] The amount to increment goal count 3 by
+    * @param int $optionalParams['goalCount4'] The amount to increment goal count 4 by
+    * @param string $validationErrorMsg The error message on validation failure
     * 
-    * @return bool Returns true on success, false otherwise
+    * @return bool Returns false on validation failure, true otherwise
     */
-    public function trackGoalCount($userId, $goalCount1 = null, $goalCount2 = null, $goalCount3 = null, $goalCount4 = null, &$errorMessage = null)
+    public function trackGoalCount($userId, $optionalParams = array(), &$validationErrorMsg = null) 
 
 
     /*
@@ -339,12 +364,13 @@ Full Class Reference
     *
     * @param string $userId The UID of the user
     * @param int $value The amount of revenue in cents
-    * @param string $type The transaction type (direct, indirect, advertisement, credits, other)
-    * @param string $subtype1 Subtype1 value (max 32 chars)
-    * @param string $subtype2 Subtype2 value (max 32 chars)
-    * @param string $subtype3 Subtype3 value (max 32 chars)
-    * @param string $errorMessage The error message on failure
+    * @param array $optionalParams An associative array containing paramName => value
+    * @param string $optionalParams['type'] The transaction type (direct, indirect, advertisement, credits, other)
+    * @param string $optionalParams['subtype1'] Subtype1 value (max 32 chars)
+    * @param string $optionalParams['subtype2'] Subtype2 value (max 32 chars)
+    * @param string $optionalParams['subtype3'] Subtype3 value (max 32 chars)
+    * @param string $validationErrorMsg The error message on validation failure
     * 
-    * @return bool Returns true on success, false otherwise
+    * @return bool Returns false on validation failure, true otherwise
     */
-    public function trackRevenue($userId, $value, $type = null,  $subtype1 = null, $subtype2 = null, $subtype3 = null, &$errorMessage = null)
+    public function trackRevenue($userId, $value, $optionalParams = array(), &$validationErrorMsg = null) 

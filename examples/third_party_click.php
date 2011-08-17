@@ -6,14 +6,13 @@
 // Your link will end up looking something like: 
 // http://example.com/third_party_click.php?kt_type=ad&kt_st1=subtype1&kt_st2=subtype2&kt_st3=subtype3
 
-require_once './kontagent.php';
+require_once './kontagent_api.php';
 require_once './facebook.php';
 
 // instantiate and configure kontagent
 $ktApiKey = '<YOUR_KT_API_KEY>';
-$ktSecretKey = '<YOUR_KT_SECRET_KEY>';
 $useTestServer = true;
-$kt = new Kontagent($ktApiKey, $ktSecretKey, $useTestServer);
+$ktApi = new KontagentApi($ktApiApiKey, array('useTestServer' => $useTestServer));
 
 // instantiate facebook lib
 $fbAppId = '<YOUR_FB_APP_ID>';
@@ -27,16 +26,15 @@ $fbUserId = $fb->getUser();
 
 // check for the presence of the Kontagent parameters
 if (isset($_GET['kt_type'])) {
-	$shortUniqueTrackingTag = $kt->genShortUniqueTrackingTag();
+	$shortUniqueTrackingTag = $ktApi->genShortUniqueTrackingTag();
 	
-	$kt->trackThirdPartyCommClick(
-		$_GET['kt_type'], 
-		$shortUniqueTrackingTag,
-		$fbUserId,
-		$_GET['kt_st1'],
-		$_GET['kt_st2'],
-		$_GET['kt_st3']
-	);
+	$ktApi->trackThirdPartyCommClick($_GET['kt_type'], array(
+		'shortTrackingTag' => $shortUniqueTrackingTag,
+		'userId' => $fbUserId,
+		'subtype1' => $_GET['kt_st1'],
+		'subtype1' => $_GET['kt_st2'],
+		'subtype1' => $_GET['kt_st3']
+	));
 
 	// At this point we will want to prompt the user to install (see the Basics example).
 	// If the user installs the app, we want to include the ShortUniqueTrackingTag

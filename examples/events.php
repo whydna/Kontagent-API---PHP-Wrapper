@@ -1,14 +1,13 @@
 <?php
 
 // include the kontagent and facebook libraries
-require_once './kontagent.php';
+require_once './kontagent_api.php';
 require_once './facebook.php';
 
 // instantiate and configure kontagent
 $ktApiKey = '<YOUR_KT_API_KEY>';
-$ktSecretKey = '<YOUR_KT_SECRET_KEY>';
 $useTestServer = true;
-$kt = new Kontagent($ktApiKey, $ktSecretKey, $useTestServer);
+$ktApi = new KontagentApi($ktApiApiKey, array('useTestServer' => $useTestServer));
 
 // instantiate facebook lib
 $fbAppId = '<YOUR_FB_APP_ID>';
@@ -23,7 +22,7 @@ $fbUserId = $fb->getUser();
 // check if an action was performed
 if (isset($_POST['user_action'])) {
 	// send the Event message to Kontagent
-	$kt->trackEvent($fbUserId, $_POST['user_action'], null, null, 'subtype1', 'subtype2');
+	$ktApi->trackEvent($fbUserId, $_POST['user_action'], array('subtype1' => 'st1', 'subtype2' => 'st1'));
 }
 
 ?>

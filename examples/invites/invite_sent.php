@@ -1,13 +1,12 @@
 <?php
 
-require_once './kontagent.php';
+require_once './kontagent_api.php';
 require_once './facebook.php';
 
 // init Kontagent
 $ktApiKey = '<YOUR_KT_API_KEY>';
-$ktSecretKey = '<YOUR_KT_SECRET_KEY>';
 $useTestServer = true;
-$kt = new Kontagent($ktApiKey, $ktSecretKey, $useTestServer);
+$ktApi = new KontagentApi($ktApiApiKey, array('useTestServer' => $useTestServer));
 
 // init Facebook
 $fbAppId = '<YOUR_FB_APP_ID>';
@@ -25,7 +24,12 @@ if (isset($_GET['request_ids'])) {
 		$requestData = explode('|', $request['data']);
 
 		// send InviteSent message to Kontagent
-		$kt->trackInviteSent($fbUserId, $request['to']['id'], $requestData[0], $requestData[1], $requestData[2], $requestData[3]);
+		$kt->trackInviteSent($fbUserId, $request['to']['id'], array(
+			'uniqueTrackingTag' => $requestData[0], 
+			'subtype1' => $requestData[1], 
+			'subtype2' => $requestData[2], 
+			'subtype3' => $requestData[3]
+		));
 	}	
 }
 

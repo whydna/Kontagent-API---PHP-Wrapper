@@ -1,14 +1,13 @@
 <?php
 
 // include the kontagent and facebook libraries
-require_once './kontagent.php';
+require_once './kontagent_api.php';
 require_once './facebook.php';
 
 // instantiate and configure kontagent
 $ktApiKey = '<YOUR_KT_API_KEY>';
-$ktSecretKey = '<YOUR_KT_SECRET_KEY>';
 $useTestServer = true;
-$kt = new Kontagent($ktApiKey, $ktSecretKey, $useTestServer);
+$ktApi = new KontagentApi($ktApiApiKey, array('useTestServer' => $useTestServer));
 
 // instantiate facebook lib
 $fbAppId = '<YOUR_FB_APP_ID>';
@@ -33,16 +32,16 @@ if (!$fbUser) {
 }
 
 // track the page request
-$kt->trackPageRequest($fbUser['id']);
+$ktApi->trackPageRequest($fbUser['id']);
 
 // Facebook appends 'installed=1' to the URL
 // if this is a new user adding your application.
 if (isset($_GET['installed'])) {
 	// track the install
-	$kt->trackApplicationAdded($fbUser['id']);
+	$ktApi->trackApplicationAdded($fbUser['id']);
 	
 	// track the user information
-	$kt->trackUserInformation($fbUser['id'], null, $fbUser['gender']);
+	$ktApi->trackUserInformation($fbUser['id'], array('gender' => $fbUser['gender']));
 }
 
 ?>

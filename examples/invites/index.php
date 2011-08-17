@@ -1,13 +1,12 @@
 <?php
 
-require_once './kontagent.php';
+require_once './kontagent_api.php';
 require_once './facebook.php';
 
 // init Kontagent
 $ktApiKey = '<YOUR_KT_API_KEY>';
-$ktSecretKey = '<YOUR_KT_SECRET_KEY>';
 $useTestServer = true;
-$kt = new Kontagent($ktApiKey, $ktSecretKey, $useTestServer);
+$ktApi = new KontagentApi($ktApiApiKey, array('useTestServer' => $useTestServer));
 
 // init Facebook
 $fbAppId = '<YOUR_FB_APP_ID>';
@@ -25,7 +24,12 @@ if (isset($_GET['request_ids'])) {
 		list($uniqueTrackingTag, $subtype1, $subtype2, $subtype3) = explode('|', $request['data']);
 
 		// send InviteResponse message to Kontagent
-		$kt->trackInviteResponse($uniqueTrackingTag, $fbUserId, $subtype1, $subtype2, $subtype3);
+		$ktApi->trackInviteResponse($uniqueTrackingTag, array(
+			'recipientUserId' => $fbUserId, 
+			'subtype1' => $subtype1, 
+			'subtype2' => $subtype2, 
+			'subtype3' => $subtype3
+		));
 	}
 
 	// At this point we will want to prompt the user to install (see the Basics example).
@@ -49,7 +53,7 @@ if (isset($_GET['request_ids'])) {
 		// to access later.
 		$redirectUrl = 'invite_sent.php';
 		$message = 'Check out my cool game!';
-		$data = $kt->genUniqueTrackingTag() . '|subtype1|subtype2|subtype3';
+		$data = $ktApi->genUniqueTrackingTag() . '|subtype1|subtype2|subtype3';
 		$inviteUrl = 'http://www.facebook.com/dialog/apprequests?app_id=' . $fbAppId 
 			. '&redirect_uri=' . urlencode($redirectUrl)
 			. '&message=' . $message
