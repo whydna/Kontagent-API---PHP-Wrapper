@@ -6,8 +6,7 @@ This is a PHP wrapper around Kontagent's API. It provides methods to make the AP
 Getting Started
 -----------------
 
-To get started with the Kontagent library, you will need to check-out the kontagent_api.php file and include it in your project. You will also need to instantiate and configure
-an instance of the Kontagent object.
+To get started with the Kontagent library, you will need to check-out the kontagent_api.php file and include it in your project. You will also need to instantiate and configure an instance of the Kontagent object.
 
     <?php
 
@@ -15,7 +14,7 @@ an instance of the Kontagent object.
     require_once('./kontagent_api.php');
 
     // configure and instantiate Kontagent object
-    $kt = new KontagentApi($ktApiKey, array('useTestServer' => true, 'validateParams' => true));
+    $ktApi = new KontagentApi($ktApiKey, array('useTestServer' => true, 'validateParams' => true));
 
     ?>
 
@@ -30,13 +29,13 @@ The tracking methods should get called by your application whenever you need to 
 
     <?php
 
-    $kt->trackApplicationAdded($userId);
+    $ktApi->trackApplicationAdded($userId);
 
-    $kt->trackPageRequest($userId);
+    $ktApi->trackPageRequest($userId);
 
-    $kt->trackEvent($userId, $eventName, array('value' => 5));
+    $ktApi->trackEvent($userId, $eventName, array('value' => 5));
 
-    $kt->trackRevenue($userId, $value, array('type' => 'credit'));
+    $ktApi->trackRevenue($userId, $value, array('type' => 'credit'));
 
     ?>
 
@@ -50,9 +49,9 @@ The library provides a few helper methods for common tasks. Currently the only o
 
     <?php
 
-    $kt->genUniqueTrackingTag();
+    $ktApi->genUniqueTrackingTag();
 
-    $kt->genShortUniqueTrackingTag();
+    $ktApi->genShortUniqueTrackingTag();
 
     ?>
 
