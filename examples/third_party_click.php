@@ -32,8 +32,8 @@ if (isset($_GET['kt_type'])) {
 		'shortTrackingTag' => $shortUniqueTrackingTag,
 		'userId' => $fbUserId,
 		'subtype1' => $_GET['kt_st1'],
-		'subtype1' => $_GET['kt_st2'],
-		'subtype1' => $_GET['kt_st3']
+		'subtype2' => $_GET['kt_st2'],
+		'subtype3' => $_GET['kt_st3']
 	));
 
 	// At this point we will want to prompt the user to install (see the Basics example).
