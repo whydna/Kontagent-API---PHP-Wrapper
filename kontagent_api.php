@@ -2,7 +2,7 @@
 
 class KontagentApi {
 	private $baseApiUrl = "http://api.geo.kontagent.net/api/v1/";
-	private $baseTestServerUrl = "http://test-server.kontagent.net/api/v1/";
+	private $baseTestServerUrl = "http://test-server.kontagent.com/api/v1/";
 	
 	private $apiKey = null;
 	private $validateParams = null;
