@@ -6,6 +6,7 @@ class KontagentApi {
 	
 	private $apiKey = null;
 	private $validateParams = null;
+
 	private $useTestServer = null;
 	
 	private $useCurl = null;
@@ -537,6 +538,8 @@ class KontagentApi {
 	}
 }
 
+////////////////////////////////////////////////////////////////////////////////
+
 /*
 * Helper class to validate the paramters for the Kontagent API messages
 */
@@ -551,6 +554,7 @@ class KtValidator
 	* @param string $validationErrorMsg If the parameter value is invalid, this will be populated with the error message
 	*
 	* @returns bool Returns true on success and false on failure.
+
 	*/
 	public static function validateParameter($messageType, $paramName, $paramValue, &$validationErrorMsg = null) {
 		// generate name of the dynamic method
